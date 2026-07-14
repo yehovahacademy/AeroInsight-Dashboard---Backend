@@ -1,4 +1,4 @@
-FLIGHTS = [
+[
     {
         "flight_number": "6E512",
         "airline": "IndiGo",

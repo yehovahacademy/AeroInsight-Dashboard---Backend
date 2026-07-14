@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "name": "IndiGo",
+        "iata": "6E",
+        "icao": "IGO",
+        "country": "India",
+        "logo": "indigo.png"
+    },
+    {
+        "id": 2,
+        "name": "Akasa Air",
+        "iata": "QP",
+        "icao": "AKJ",
+        "country": "India",
+        "logo": "akasa.png"
+    },
+    {
+        "id": 3,
+        "name": "Alaska Airlines",
+        "iata": "AS",
+        "icao": "ASA",
+        "country": "United States",
+        "logo": "alaska.png"
+    },
+    {
+        "id": 4,
+        "name": "Alliance Airlines",
+        "iata": "QQ",
+        "icao": "UTY",
+        "country": "Australia",
+        "logo": "alliance.png"
+    },
+    {
+        "id": 5,
+        "name": "Air Canada",
+        "iata": "AC",
+        "icao": "ACA",
+        "country": "Canada",
+        "logo": "aircanada.png"
+    },
+    {
+        "id": 6,
+        "name": "Delta Air Lines",
+        "iata": "DL",
+        "icao": "DAL",
+        "country": "United States",
+        "logo": "delta.png"
+    },
+    {
+        "id": 7,
+        "name": "Lufthansa",
+        "iata": "LH",
+        "icao": "DLH",
+        "country": "Germany",
+        "logo": "lufthansa.png"
+    },
+    {
+        "id": 8,
+        "name": "All Nippon Airways",
+        "iata": "NH",
+        "icao": "ANA",
+        "country": "Japan",
+        "logo": "ana.png"
+    },
+    {
+        "id": 9,
+        "name": "Qatar Airways",
+        "iata": "QR",
+        "icao": "QTR",
+        "country": "Qatar",
+        "logo": "qatar.png"
+    },
+    {
+        "id": 10,
+        "name": "Air India Express",
+        "iata": "IX",
+        "icao": "AXB",
+        "country": "India",
+        "logo": "airindiaexpress.png"
+    }
+]
