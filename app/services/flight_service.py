@@ -57,3 +57,19 @@ def get_all_flights(
         ]
 
     return flights
+
+
+def get_flight_by_number(flight_number: str):
+    flights = load_flights()
+
+    print("Searching for:", flight_number)
+
+    for flight in flights:
+        print("Checking:", flight["flight_number"])
+
+        if flight["flight_number"].lower() == flight_number.lower():
+            print("Match Found!")
+            return flight
+
+    print("No Match Found")
+    return None
