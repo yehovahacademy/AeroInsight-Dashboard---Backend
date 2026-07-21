@@ -239,4 +239,28 @@
         "departure_time": "19:30",
         "arrival_time": "22:05"
     }
+    {
+    "flight_number": "QQ421",
+    "airline": "Alliance Airlines",
+    "origin": "SYD",
+    "destination": "BNE",
+    "status": "On Time",
+    "aircraft": "Embraer E190",
+    "altitude": 34000,
+    "speed": 790,
+    "departure_time": "09:15",
+    "arrival_time": "11:05"
+},
+{
+    "flight_number": "QQ508",
+    "airline": "Alliance Airlines",
+    "origin": "BNE",
+    "destination": "CNS",
+    "status": "Boarding",
+    "aircraft": "Fokker 70",
+    "altitude": 0,
+    "speed": 0,
+    "departure_time": "14:40",
+    "arrival_time": "17:00"
+}
 ]
