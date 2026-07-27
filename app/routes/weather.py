@@ -3,6 +3,12 @@ from app.utils.airports import AIRPORTS
 from app.services.weather_service import get_weather as fetch_weather
 import logging
 from app.utils.risk_engine import calculate_fog_risk
+from app.services.prediction_service import calculate_delay_prediction
+from app.services.prediction_service import (
+    calculate_delay_prediction,
+    calculate_aviation_risk,
+    generate_aviation_alerts,
+)
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -72,6 +78,21 @@ def get_weather_by_airport(airport: str):
     }
     for i in range(min(6, len(hourly["time"])))
 ]
+
+    first_visibility = visibility_forecast[0]["visibility_m"]
+    first_fog_risk = visibility_forecast[0]["fog_risk"]
+    delay_prediction = calculate_delay_prediction(
+        current,
+        first_visibility,
+        first_fog_risk
+    )
+    aviation_risk = calculate_aviation_risk(delay_prediction)
+
+    aviation_alerts = generate_aviation_alerts(
+    current,
+    first_visibility,
+    first_fog_risk
+)
     
 
     current_weather = {
@@ -96,4 +117,8 @@ def get_weather_by_airport(airport: str):
         "current": current_weather,
         "forecast": forecast,
         "visibility_forecast": visibility_forecast,
-    }
+        "delay_prediction": delay_prediction,
+        "aviation_risk": aviation_risk,
+        "aviation_alerts": aviation_alerts
+}
+    
