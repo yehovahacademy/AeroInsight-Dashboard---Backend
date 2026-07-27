@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from app.utils.airports import AIRPORTS
 from app.services.weather_service import get_weather as fetch_weather
 import logging
+from app.utils.risk_engine import calculate_fog_risk
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -60,13 +61,18 @@ def get_weather_by_airport(airport: str):
     ]
 
     visibility_forecast = [
-        {
-            "time": hourly["time"][i],
-            "visibility_m": hourly["visibility"][i],
-            "visibility_km": round(hourly["visibility"][i] / 1000, 1)
-        }
-        for i in range(min(6, len(hourly["time"])))
-    ]
+    {
+        "time": hourly["time"][i],
+        "visibility_m": hourly["visibility"][i],
+        "visibility_km": round(hourly["visibility"][i] / 1000, 1),
+        "fog_risk": calculate_fog_risk(
+            hourly["visibility"][i],
+            current["relative_humidity_2m"]
+        )
+    }
+    for i in range(min(6, len(hourly["time"])))
+]
+    
 
     current_weather = {
         "temperature": current["temperature_2m"],
