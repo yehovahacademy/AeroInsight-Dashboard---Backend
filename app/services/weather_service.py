@@ -8,7 +8,6 @@ def get_weather(latitude: float, longitude: float):
     params = {
         "latitude": latitude,
         "longitude": longitude,
-
         "current": ",".join([
             "temperature_2m",
             "relative_humidity_2m",
@@ -37,6 +36,11 @@ def get_weather(latitude: float, longitude: float):
             "precipitation_sum"
         ]),
 
+         "hourly": ",".join([
+        "visibility"
+    ]),
+
+
         "forecast_days": 3,
         "timezone": "auto",
         "models": "best_match"
@@ -44,4 +48,13 @@ def get_weather(latitude: float, longitude: float):
 
     response = requests.get(BASE_URL, params=params)
     response.raise_for_status()
+
+    data = response.json()
+
+    print(type(data))
+    print(data.keys())
+
+    return data
+
+
     return response.json()
