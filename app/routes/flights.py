@@ -1,13 +1,13 @@
 from fastapi import APIRouter
-
-from app.services.flight_service import flight_service
-
-router = APIRouter(
-    prefix="/api/flights",
-    tags=["Flights"],
-)
+from app.clients.aeroapi_client import AeroAPIClient
 
 
-@router.get("/{ident}")
-async def flight_details(ident: str):
-    return await flight_service.get_flight(ident)
+router = APIRouter()
+
+
+@router.get("/test/{flight}")
+def test_flight(flight:str):
+
+    client = AeroAPIClient()
+
+    return client.get_flight(flight)

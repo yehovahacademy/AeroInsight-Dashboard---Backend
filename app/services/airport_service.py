@@ -1,10 +1,10 @@
-from app.clients.aeroapi_client import AeroApiClient
+from app.clients.aeroapi_client import AeroAPIClient
 
 
 class AirportService:
 
     def __init__(self):
-        self.client = AeroApiClient()
+        self.client = AeroAPIClient()
 
     async def get_airport(self, airport_code: str):
         return await self.client.get_airport(airport_code)

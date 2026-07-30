@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 
+
 class RouteSummary(BaseModel):
     id: str
     origin: str
@@ -13,9 +14,6 @@ class RouteSummary(BaseModel):
     recommendation: str
 
 
-   
-
-
 class NetworkSummary(BaseModel):
     total_routes: int
     average_load_factor: float
@@ -23,5 +21,24 @@ class NetworkSummary(BaseModel):
     recommendations: dict[str, int]
 
 
-class RouteResponse(BaseModel):
-    routes: list[Route]    
+class RouteRequest(BaseModel):
+    origin: str
+    destination: str
+    aircraft: str
+
+
+class RouteAnalysis(BaseModel):
+    origin: str
+    destination: str
+    
+    distance_km: float
+    estimated_duration: str
+    
+    demand_score: int
+    weather_risk: str
+    
+    estimated_revenue: float
+    estimated_cost: float
+    estimated_profit: float
+    
+    recommendation: str
