@@ -1,75 +1,13 @@
-import json
-from pathlib import Path
-
-DATA_FILE = Path(__file__).parent.parent / "data" / "flights.json"
-
-def load_flights():
-    print(f"Reading file: {DATA_FILE}")
-    print(f"Exists: {DATA_FILE.exists()}")
-
-    with open(DATA_FILE, "r", encoding="utf-8") as file:
-        content = file.read()
-
-    print("First 100 characters:")
-    print(repr(content[:100]))
-
-    return json.loads(content)
+from app.clients.aeroapi_client import AeroApiClient
 
 
-def get_all_flights(
-    airline: str | None = None,
-    origin: str | None = None,
-    destination: str | None = None,
-    status: str | None = None
-):
-    """
-    Return flights with optional filters.
-    """
+class FlightService:
 
-    flights = load_flights()
+    def __init__(self):
+        self.client = AeroApiClient()
 
-    if airline:
-        flights = [
-            flight
-            for flight in flights
-            if flight["airline"].lower() == airline.lower()
-        ]
-
-    if origin:
-        flights = [
-            flight
-            for flight in flights
-            if flight["origin"].lower() == origin.lower()
-        ]
-
-    if destination:
-        flights = [
-            flight
-            for flight in flights
-            if flight["destination"].lower() == destination.lower()
-        ]
-
-    if status:
-        flights = [
-            flight
-            for flight in flights
-            if flight["status"].lower() == status.lower()
-        ]
-
-    return flights
+    async def get_flight(self, ident: str):
+        return await self.client.get_flight(ident)
 
 
-def get_flight_by_number(flight_number: str):
-    flights = load_flights()
-
-    print("Searching for:", flight_number)
-
-    for flight in flights:
-        print("Checking:", flight["flight_number"])
-
-        if flight["flight_number"].lower() == flight_number.lower():
-            print("Match Found!")
-            return flight
-
-    print("No Match Found")
-    return None
+flight_service = FlightService()

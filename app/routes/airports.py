@@ -1,12 +1,13 @@
 from fastapi import APIRouter
 
-from app.clients.api_ninjas_client import ApiNinjasClient
+from app.services.airport_service import airport_service
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/api/airports",
+    tags=["Airports"],
+)
 
-client = ApiNinjasClient()
 
-
-@router.get("/test-airports")
-async def test_airports():
-    return await client.get_airports("Mumbai")
+@router.get("/{airport_code}")
+async def airport_details(airport_code: str):
+    return await airport_service.get_airport(airport_code)
