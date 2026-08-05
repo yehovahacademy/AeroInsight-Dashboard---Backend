@@ -6,8 +6,17 @@ from app.schemas.airport_data_schema import AirportData
 
 class AirportLoader:
 
+    def get_airport_by_iata(self, iata: str):
+           return self.airports_by_iata.get(iata.upper())
+
+    def get_airport_by_icao(self, icao: str):
+            return self.airports_by_icao.get(icao.upper())
+
     def __init__(self):
         self.airports = []
+
+        self.airports_by_iata = {}
+        self.airports_by_icao = {}
 
     def load_airports(self):
 
@@ -47,9 +56,21 @@ class AirportLoader:
                 
                     self.airports.append(airport)
 
+                    self.airports_by_iata[airport.iata] = airport
+
+
+                    if airport.icao != "\\N":
+                         self.airports_by_icao[airport.icao] = airport
+  
+
+        print(f"Loaded {len(self.airports)} airports.")
+
    
-
-
 if __name__ == "__main__":
     loader = AirportLoader()
     loader.load_airports()
+
+
+    airport = loader.get_airport_by_iata("BOM")
+
+    print(airport)
