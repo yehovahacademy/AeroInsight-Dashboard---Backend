@@ -21,7 +21,5 @@ class AirportService:
                 "live": live
             }
 
-    
-
 
 airport_service = AirportService()

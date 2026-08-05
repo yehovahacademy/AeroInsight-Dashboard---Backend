@@ -1,6 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
-from app.services.airport_service import airport_service
+from app.services.airport_loader import airport_loader
 
 router = APIRouter(
     prefix="/api/airports",
@@ -10,4 +10,9 @@ router = APIRouter(
 
 @router.get("/{airport_code}")
 async def airport_details(airport_code: str):
-    return await airport_service.get_airport(airport_code)
+    airport = airport_loader.get_airport_by_iata(airport_code)
+
+    if airport is None:
+        raise HTTPException(status_code=404, detail="Airport not found")
+
+    return airport

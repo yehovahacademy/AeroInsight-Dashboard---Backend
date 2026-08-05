@@ -66,11 +66,8 @@ class AirportLoader:
         print(f"Loaded {len(self.airports)} airports.")
 
    
-if __name__ == "__main__":
-    loader = AirportLoader()
-    loader.load_airports()
 
 
-    airport = loader.get_airport_by_iata("BOM")
 
-    print(airport)
+airport_loader = AirportLoader()
+airport_loader.load_airports()
