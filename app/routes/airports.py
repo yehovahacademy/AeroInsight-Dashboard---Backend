@@ -7,6 +7,10 @@ router = APIRouter(
     tags=["Airports"],
 )
 
+@router.get("/search/{query}")
+async def search_airports(query: str):
+    return airport_loader.search_airports(query)
+
 
 @router.get("/{airport_code}")
 async def airport_details(airport_code: str):

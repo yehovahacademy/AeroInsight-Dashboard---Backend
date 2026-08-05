@@ -12,6 +12,23 @@ class AirportLoader:
     def get_airport_by_icao(self, icao: str):
             return self.airports_by_icao.get(icao.upper())
 
+
+    def search_airports(self, query: str):
+          query = query.lower()
+
+          return [
+                  airport
+                  for airport in self.airports
+                  if query in airport.name.lower()
+                  or query in airport.city.lower()
+                  or query in airport.country.lower()
+                  or query == airport.iata.lower()
+                  or query == airport.icao.lower()
+              ]
+   
+
+    
+
     def __init__(self):
         self.airports = []
 
