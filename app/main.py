@@ -9,6 +9,7 @@ from app.routes.airports import router as airports_router
 from app.routes.health import router as health_router
 from app.routes import network
 from app.routes.airport_intelligence import router as airport_router
+from app.routes.fleet import router as fleet_router
 
 from app.routes import weather
 
@@ -72,6 +73,12 @@ app.include_router(
     airport_router,
     prefix="/airport-intelligence",
     tags=["Airport Intelligence"]
+)
+
+app.include_router(
+    fleet_router,
+    prefix="/fleet",    
+    tags=["Fleet"]
 )
 
 
