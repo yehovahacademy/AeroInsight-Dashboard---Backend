@@ -516,25 +516,60 @@ def analyze_sigmets(sigmet_data: dict):
 
     for region, sigmets in sigmet_data.items():
 
+        if not isinstance(sigmets, list):
+            continue
+
         for sigmet in sigmets:
 
             risk = calculate_sigmet_risk(sigmet)
 
             analyzed.append({
                 "region": region,
+
                 "icao": sigmet.get("icaoId"),
+                "fir": sigmet.get("firId"),
+                "fir_name": sigmet.get("firName"),
+
                 "series": sigmet.get("seriesId"),
+
                 "hazard": sigmet.get("hazard"),
+                "qualifier": sigmet.get("qualifier"),
+
                 "severity": sigmet.get("severity"),
+
                 "valid_from": sigmet.get("validTimeFrom"),
                 "valid_to": sigmet.get("validTimeTo"),
-                "altitude_high": sigmet.get("altitudeHi1"),
-                "movement_direction": sigmet.get("movementDir"),
-                "movement_speed": sigmet.get("movementSpd"),
+
+                "altitude": {
+                    "low": (
+                        sigmet.get("altitudeLow1")
+                        if sigmet.get("altitudeLow1") is not None
+                        else sigmet.get("base")
+                    ),
+                    "high": (
+                        sigmet.get("altitudeHi1")
+                        if sigmet.get("altitudeHi1") is not None
+                        else sigmet.get("top")
+                    )
+                },
+
+                "movement": {
+                    "direction": (
+                        sigmet.get("movementDir")
+                        if sigmet.get("movementDir") is not None
+                        else sigmet.get("dir")
+                    ),
+                    "speed": (
+                        sigmet.get("movementSpd")
+                        if sigmet.get("movementSpd") is not None
+                        else sigmet.get("spd")
+                    )
+                },
+
                 "coordinates": sigmet.get("coords", []),
+
                 "risk": risk
             })
 
     return analyzed
-
 

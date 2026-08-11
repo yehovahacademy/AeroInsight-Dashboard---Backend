@@ -14,70 +14,79 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.get("/metar/{icao}")
-def get_metar_by_icao(icao: str):
+@router.get("/intelligence/{icao}")
+def get_weather_intelligence(icao: str):
 
-    data = get_metar(icao)
-
-    if not data:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No METAR data available for {icao.upper()}"
-        )
-
-    metar = data[0]
-
-    risk = calculate_weather_risk(metar)
-
-    return {
-        "icao": icao.upper(),
-        "source": "AviationWeather.gov",
-        "metar": metar,
-        "weather_risk": risk
-    }
-
-@router.get("/taf/{icao}")
-def get_taf_by_icao(icao: str):
-
-    data = get_taf(icao)
-
-    if not data:
-        raise HTTPException(
-            status_code=404,
-            detail=f"No TAF data available for {icao.upper()}"
-        )
-
-    forecast_analysis = analyze_taf_forecast(data)
-
-    return {
-        "icao": icao.upper(),
-        "source": "AviationWeather.gov",
-        "taf": data,
-        "forecast_analysis": forecast_analysis
-    }
-
-@router.get("/sigmet")
-def get_sigmet_data():
+    icao = icao.upper()
 
     try:
+        # -------------------------
+        # METAR
+        # -------------------------
+        metar_data = get_metar(icao)
 
-        data = get_sigmet()
+        if not metar_data:
+            raise HTTPException(
+                status_code=404,
+                detail=f"No METAR data available for {icao}"
+            )
 
-        analysis = analyze_sigmets(data)
+        metar = metar_data[0]
 
+        current_risk = calculate_weather_risk(metar)
+
+        # -------------------------
+        # TAF
+        # -------------------------
+        taf_data = get_taf(icao)
+
+        if taf_data:
+            forecast_analysis = analyze_taf_forecast(taf_data)
+        else:
+            forecast_analysis = {
+                "forecast_periods": []
+            }
+
+        # -------------------------
+        # SIGMET
+        # -------------------------
+        sigmet_data = get_sigmet()
+
+        sigmet_analysis = analyze_sigmets(sigmet_data)
+
+        # -------------------------
+        # Return combined data
+        # -------------------------
         return {
+            "icao": icao,
             "source": "AviationWeather.gov",
-            "sigmet": data,
-            "analysis": analysis
+
+            "current_conditions": {
+                "metar": metar,
+                "risk": current_risk
+            },
+
+            "forecast": {
+                "taf": taf_data,
+                "analysis": forecast_analysis
+            },
+
+            "hazards": {
+                "sigmet": sigmet_analysis
+            }
         }
+
+    except HTTPException:
+        raise
 
     except Exception as e:
 
+        print("Weather intelligence error:", e)
+
         raise HTTPException(
             status_code=500,
-            detail=f"Failed to retrieve SIGMET data: {str(e)}"
+            detail=f"Failed to generate weather intelligence for {icao}: {str(e)}"
         )
-    
 
 
 @router.get("/")
