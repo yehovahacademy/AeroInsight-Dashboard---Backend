@@ -84,3 +84,113 @@ def get_metar(icao: str):
 
     return response.json()
 
+
+def calculate_weather_risk(metar: dict):
+
+    score = 0
+    factors = []
+
+    # -------------------------
+    # Visibility Risk
+    # -------------------------
+    visibility = metar.get("visib")
+
+    if visibility is not None:
+
+        if visibility < 1:
+            score += 40
+            factors.append("Very low visibility")
+
+        elif visibility < 3:
+            score += 30
+            factors.append("Low visibility")
+
+        elif visibility < 5:
+            score += 15
+            factors.append("Reduced visibility")
+
+    # -------------------------
+    # Wind Risk
+    # -------------------------
+    wind_speed = metar.get("wspd")
+
+    if wind_speed is not None:
+
+        if wind_speed >= 30:
+            score += 30
+            factors.append("Very strong winds")
+
+        elif wind_speed >= 20:
+            score += 20
+            factors.append("Strong winds")
+
+        elif wind_speed >= 15:
+            score += 10
+            factors.append("Moderate-to-strong winds")
+
+    # -------------------------
+    # Weather Risk
+    # -------------------------
+    weather = metar.get("wxString") or ""
+
+    weather = weather.upper()
+
+    if "TS" in weather:
+        score += 30
+        factors.append("Thunderstorm activity")
+
+    elif "SN" in weather:
+        score += 25
+        factors.append("Snow")
+
+    elif "FG" in weather:
+        score += 30
+        factors.append("Fog")
+
+    elif "RA" in weather:
+        score += 15
+        factors.append("Rain")
+
+    # -------------------------
+    # Flight Category
+    # -------------------------
+    flight_category = metar.get("fltCat")
+
+    if flight_category == "LIFR":
+        score += 40
+        factors.append("LIFR conditions")
+
+    elif flight_category == "IFR":
+        score += 25
+        factors.append("IFR conditions")
+
+    elif flight_category == "MVFR":
+        score += 10
+        factors.append("MVFR conditions")
+
+    # -------------------------
+    # Cap score
+    # -------------------------
+    score = min(score, 100)
+
+    # -------------------------
+    # Risk level
+    # -------------------------
+    if score >= 70:
+        level = "SEVERE"
+
+    elif score >= 45:
+        level = "HIGH"
+
+    elif score >= 20:
+        level = "MODERATE"
+
+    else:
+        level = "LOW"
+
+    return {
+        "score": score,
+        "level": level,
+        "factors": factors
+    }
+

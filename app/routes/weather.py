@@ -8,7 +8,7 @@ from app.services.prediction_service import (
     calculate_aviation_risk,
     generate_aviation_alerts,
 )
-from app.services.weather_service import get_weather as fetch_weather, get_metar
+from app.services.weather_service import get_weather as fetch_weather, get_metar,calculate_weather_risk
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -17,20 +17,26 @@ logger = logging.getLogger(__name__)
 @router.get("/metar/{icao}")
 def get_metar_by_icao(icao: str):
 
-    try:
-        data = get_metar(icao)
+    data = get_metar(icao)
 
-        return {
-            "icao": icao.upper(),
-            "source": "AviationWeather.gov",
-            "metar": data
-        }
-
-    except Exception as e:
+    if not data:
         raise HTTPException(
-            status_code=500,
-            detail=f"Failed to retrieve METAR data: {str(e)}"
+            status_code=404,
+            detail=f"No METAR data available for {icao.upper()}"
         )
+
+    metar = data[0]
+
+    risk = calculate_weather_risk(metar)
+
+    return {
+        "icao": icao.upper(),
+        "source": "AviationWeather.gov",
+        "metar": metar,
+        "weather_risk": risk
+    }
+
+    
 
 
 @router.get("/")
