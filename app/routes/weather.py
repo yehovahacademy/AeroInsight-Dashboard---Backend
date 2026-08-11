@@ -8,7 +8,7 @@ from app.services.prediction_service import (
     calculate_aviation_risk,
     generate_aviation_alerts,
 )
-from app.services.weather_service import get_weather as fetch_weather, get_metar,calculate_weather_risk
+from app.services.weather_service import get_weather as fetch_weather, get_metar,calculate_weather_risk, get_taf, analyze_taf_forecast
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -34,6 +34,26 @@ def get_metar_by_icao(icao: str):
         "source": "AviationWeather.gov",
         "metar": metar,
         "weather_risk": risk
+    }
+
+@router.get("/taf/{icao}")
+def get_taf_by_icao(icao: str):
+
+    data = get_taf(icao)
+
+    if not data:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No TAF data available for {icao.upper()}"
+        )
+
+    forecast_analysis = analyze_taf_forecast(data)
+
+    return {
+        "icao": icao.upper(),
+        "source": "AviationWeather.gov",
+        "taf": data,
+        "forecast_analysis": forecast_analysis
     }
 
     
