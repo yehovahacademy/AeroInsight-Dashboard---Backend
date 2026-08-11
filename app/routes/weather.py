@@ -8,7 +8,7 @@ from app.services.prediction_service import (
     calculate_aviation_risk,
     generate_aviation_alerts,
 )
-from app.services.weather_service import get_weather as fetch_weather, get_metar,calculate_weather_risk, get_taf, analyze_taf_forecast
+from app.services.weather_service import get_weather as fetch_weather, get_metar,calculate_weather_risk, get_taf, analyze_taf_forecast, get_sigmet, analyze_sigmets
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -56,6 +56,27 @@ def get_taf_by_icao(icao: str):
         "forecast_analysis": forecast_analysis
     }
 
+@router.get("/sigmet")
+def get_sigmet_data():
+
+    try:
+
+        data = get_sigmet()
+
+        analysis = analyze_sigmets(data)
+
+        return {
+            "source": "AviationWeather.gov",
+            "sigmet": data,
+            "analysis": analysis
+        }
+
+    except Exception as e:
+
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to retrieve SIGMET data: {str(e)}"
+        )
     
 
 
