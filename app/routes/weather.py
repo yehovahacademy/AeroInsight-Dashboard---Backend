@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
 from app.utils.airports import AIRPORTS
-from app.services.weather_service import get_weather as fetch_weather
 import logging
 from app.utils.risk_engine import calculate_fog_risk
 from app.services.prediction_service import calculate_delay_prediction
@@ -9,9 +8,29 @@ from app.services.prediction_service import (
     calculate_aviation_risk,
     generate_aviation_alerts,
 )
+from app.services.weather_service import get_weather as fetch_weather, get_metar
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
+
+
+@router.get("/metar/{icao}")
+def get_metar_by_icao(icao: str):
+
+    try:
+        data = get_metar(icao)
+
+        return {
+            "icao": icao.upper(),
+            "source": "AviationWeather.gov",
+            "metar": data
+        }
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to retrieve METAR data: {str(e)}"
+        )
 
 
 @router.get("/")
@@ -49,6 +68,9 @@ def get_weather_by_airport(airport: str):
             status_code=500,
             detail="Unable to fetch weather data."
         )
+
+
+    
 
     forecast = [
         {

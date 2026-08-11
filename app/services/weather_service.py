@@ -1,9 +1,12 @@
 import requests
 
 BASE_URL = "https://api.open-meteo.com/v1/forecast"
+AWC_BASE_URL = "https://aviationweather.gov/api/data"
 
 
 def get_weather(latitude: float, longitude: float):
+
+
 
     params = {
         "latitude": latitude,
@@ -57,4 +60,27 @@ def get_weather(latitude: float, longitude: float):
     return data
 
 
+def get_metar(icao: str):
+
+    url = f"{AWC_BASE_URL}/metar"
+
+    params = {
+        "ids": icao.upper(),
+        "format": "json"
+    }
+
+    headers = {
+        "User-Agent": "AeroInsight/1.0"
+    }
+
+    response = requests.get(
+        url,
+        params=params,
+        headers=headers,
+        timeout=15
+    )
+
+    response.raise_for_status()
+
     return response.json()
+
