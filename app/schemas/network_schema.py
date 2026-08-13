@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 
@@ -24,7 +25,9 @@ class NetworkSummary(BaseModel):
 class RouteRequest(BaseModel):
     origin: str
     destination: str
-    aircraft: str
+    aircraft: Optional[str] = None        # ← was required, now optional
+    season: Optional[str] = None          # ← missing, added
+    flights_per_day: Optional[str] = None
 
 
 class RouteAnalysis(BaseModel):

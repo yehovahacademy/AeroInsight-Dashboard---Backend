@@ -66,7 +66,7 @@ app.include_router(
 
 app.include_router(
   network.router,
-    prefix="/network",
+  prefix ="/api/network",
     tags=["Network Planning"]
 )
 
