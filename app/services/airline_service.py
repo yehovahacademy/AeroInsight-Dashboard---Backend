@@ -1,4 +1,4 @@
-from app.config.airlines import SUPPORTED_AIRLINES
+from app.services.airline_loader import get_all_airlines as load_airlines
 
 def get_all_airlines():
-  return SUPPORTED_AIRLINES
+    return load_airlines()
