@@ -1,6 +1,10 @@
 from fastapi import APIRouter
 
-from app.schemas.network_schema import NetworkSummary, RouteRequest, RouteAnalysis
+from app.schemas.network_schema import (
+    NetworkSummary,
+    RouteRequest,
+    RouteAnalysis,
+)
 from app.services.network_service import analyze_route
 
 router = APIRouter()
@@ -12,10 +16,10 @@ async def summary():
         "total_routes": 0,
         "average_load_factor": 0,
         "high_revenue_routes": 0,
-        "recommendations": {}
+        "recommendations": {},
     }
 
 
 @router.post("/analyze_route", response_model=RouteAnalysis)
 async def analyze_route_endpoint(request: RouteRequest):
-    return analyze_route(request)
+    return await analyze_route(request)
