@@ -1,90 +1,119 @@
-import csv
-from pathlib import Path
-
-from app.schemas.airport_data_schema import AirportData
+from app.Database import get_connection
 
 
 class AirportLoader:
 
     def get_airport_by_iata(self, iata: str):
-           return self.airports_by_iata.get(iata.upper())
+        with get_connection() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT
+                        airport_id,
+                        iata_code,
+                        icao_code,
+                        airport_name,
+                        city,
+                        country,
+                        latitude,
+                        longitude
+                    FROM public.airports
+                    WHERE UPPER(iata_code) = UPPER(%s)
+                    """,
+                    (iata,),
+                )
+
+                row = cursor.fetchone()
+
+                if row is None:
+                    return None
+
+                return self._format_airport(row)
+
 
     def get_airport_by_icao(self, icao: str):
-            return self.airports_by_icao.get(icao.upper())
+        with get_connection() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT
+                        airport_id,
+                        iata_code,
+                        icao_code,
+                        airport_name,
+                        city,
+                        country,
+                        latitude,
+                        longitude
+                    FROM public.airports
+                    WHERE UPPER(icao_code) = UPPER(%s)
+                    """,
+                    (icao,),
+                )
+
+                row = cursor.fetchone()
+
+                if row is None:
+                    return None
+
+                return self._format_airport(row)
 
 
     def search_airports(self, query: str):
-          query = query.lower()
+        with get_connection() as connection:
+            with connection.cursor() as cursor:
 
-          return [
-                  airport
-                  for airport in self.airports
-                  if query in airport.name.lower()
-                  or query in airport.city.lower()
-                  or query in airport.country.lower()
-                  or query == airport.iata.lower()
-                  or query == airport.icao.lower()
-              ]
-   
+                search_pattern = f"%{query}%"
 
-    
+                cursor.execute(
+                    """
+                    SELECT
+                        airport_id,
+                        iata_code,
+                        icao_code,
+                        airport_name,
+                        city,
+                        country,
+                        latitude,
+                        longitude
+                    FROM public.airports
+                    WHERE
+                        UPPER(iata_code) = UPPER(%s)
+                        OR UPPER(icao_code) = UPPER(%s)
+                        OR airport_name ILIKE %s
+                        OR city ILIKE %s
+                        OR country ILIKE %s
+                    ORDER BY airport_name
+                    LIMIT 20
+                    """,
+                    (
+                        query,
+                        query,
+                        search_pattern,
+                        search_pattern,
+                        search_pattern,
+                    ),
+                )
 
-    def __init__(self):
-        self.airports = []
+                rows = cursor.fetchall()
 
-        self.airports_by_iata = {}
-        self.airports_by_icao = {}
-
-    def load_airports(self):
-
-        data_file = (
-            Path(__file__).resolve().parent.parent
-            / "data"
-            / "airports.dat"
-        )
-
-        print(f"Loading airports from: {data_file}")
-
-        with open(data_file, mode="r", encoding="utf-8") as file:
-            reader = csv.reader(file)
-
-            for row in reader:
-                 # Skip invalid rows
-                    if len(row) < 14:
-                        continue
-                
-                    # Skip airports without an IATA code
-                    if row[4] == "\\N" or row[4] == "":
-                        continue
-                
-                    airport = AirportData(
-                        id=int(row[0]),
-                        name=row[1],
-                        city=row[2],
-                        country=row[3],
-                        iata=row[4],
-                        icao=row[5],
-                        latitude=float(row[6]),
-                        longitude=float(row[7]),
-                        altitude=int(float(row[8])),
-                        timezone=row[11],
-                        airport_type=row[12],
-                    )
-                
-                    self.airports.append(airport)
-
-                    self.airports_by_iata[airport.iata] = airport
+                return [
+                    self._format_airport(row)
+                    for row in rows
+                ]
 
 
-                    if airport.icao != "\\N":
-                         self.airports_by_icao[airport.icao] = airport
-  
-
-        print(f"Loaded {len(self.airports)} airports.")
-
-   
-
+    def _format_airport(self, row):
+        return {
+            "id": row[0],
+            "iata": row[1],
+            "icao": row[2],
+            "name": row[3],
+            "city": row[4],
+            "country": row[5],
+            "latitude": row[6],
+            "longitude": row[7],
+        }
 
 
 airport_loader = AirportLoader()
-airport_loader.load_airports()

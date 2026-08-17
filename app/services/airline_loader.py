@@ -1,133 +1,33 @@
-from app.Database import get_connection
+import csv
+from pathlib import Path
 
 
-class AirportLoader:
-
-    def get_airport_by_iata(self, iata: str):
-        connection = get_connection()
-
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE UPPER(iata_code) = UPPER(%s)
-                    """,
-                    (iata,),
-                )
-
-                row = cursor.fetchone()
-
-                if row is None:
-                    return None
-
-                return self._format_airport(row)
-
-        finally:
-            connection.close()
+DATA_FILE = (
+    Path(__file__).resolve().parent.parent
+    / "data"
+    / "airlines.dat"
+)
 
 
-    def get_airport_by_icao(self, icao: str):
-        connection = get_connection()
+def get_all_airlines():
+    airlines = []
 
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE UPPER(icao_code) = UPPER(%s)
-                    """,
-                    (icao,),
-                )
+    with open(DATA_FILE, "r", encoding="utf-8") as file:
+        reader = csv.reader(file)
 
-                row = cursor.fetchone()
+        for row in reader:
+            if len(row) < 8:
+                continue
 
-                if row is None:
-                    return None
+            airlines.append({
+                "id": row[0],
+                "name": row[1],
+                "alias": row[2],
+                "iata": row[3],
+                "icao": row[4],
+                "callsign": row[5],
+                "country": row[6],
+                "active": row[7],
+            })
 
-                return self._format_airport(row)
-
-        finally:
-            connection.close()
-
-
-    def search_airports(self, query: str):
-        connection = get_connection()
-
-        try:
-            with connection.cursor() as cursor:
-                search_pattern = f"%{query}%"
-
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE
-                        UPPER(iata_code) = UPPER(%s)
-                        OR UPPER(icao_code) = UPPER(%s)
-                        OR airport_name ILIKE %s
-                        OR city ILIKE %s
-                        OR country ILIKE %s
-                    ORDER BY airport_name
-                    LIMIT 20
-                    """,
-                    (
-                        query,
-                        query,
-                        search_pattern,
-                        search_pattern,
-                        search_pattern,
-                    ),
-                )
-
-                rows = cursor.fetchall()
-
-                return [
-                    self._format_airport(row)
-                    for row in rows
-                ]
-
-        finally:
-            connection.close()
-
-
-    def _format_airport(self, row):
-        return {
-            "id": row[0],
-            "iata": row[1],
-            "icao": row[2],
-            "name": row[3],
-            "city": row[4],
-            "country": row[5],
-            "latitude": row[6],
-            "longitude": row[7],
-        }
-
-
-airport_loader = AirportLoader()
+    return airlines
