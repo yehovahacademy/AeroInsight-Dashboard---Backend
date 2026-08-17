@@ -1,106 +1,33 @@
-from app.Database import get_connection
+from app.repositories.airport_repository import airport_repository
 
 
 class AirportLoader:
 
     def get_airport_by_iata(self, iata: str):
-        with get_connection() as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE UPPER(iata_code) = UPPER(%s)
-                    """,
-                    (iata,),
-                )
+        row = airport_repository.get_by_iata(iata)
 
-                row = cursor.fetchone()
+        if row is None:
+            return None
 
-                if row is None:
-                    return None
-
-                return self._format_airport(row)
+        return self._format_airport(row)
 
 
     def get_airport_by_icao(self, icao: str):
-        with get_connection() as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE UPPER(icao_code) = UPPER(%s)
-                    """,
-                    (icao,),
-                )
+        row = airport_repository.get_by_icao(icao)
 
-                row = cursor.fetchone()
+        if row is None:
+            return None
 
-                if row is None:
-                    return None
-
-                return self._format_airport(row)
+        return self._format_airport(row)
 
 
     def search_airports(self, query: str):
-        with get_connection() as connection:
-            with connection.cursor() as cursor:
+        rows = airport_repository.search(query)
 
-                search_pattern = f"%{query}%"
-
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata_code,
-                        icao_code,
-                        airport_name,
-                        city,
-                        country,
-                        latitude,
-                        longitude
-                    FROM public.airports
-                    WHERE
-                        UPPER(iata_code) = UPPER(%s)
-                        OR UPPER(icao_code) = UPPER(%s)
-                        OR airport_name ILIKE %s
-                        OR city ILIKE %s
-                        OR country ILIKE %s
-                    ORDER BY airport_name
-                    LIMIT 20
-                    """,
-                    (
-                        query,
-                        query,
-                        search_pattern,
-                        search_pattern,
-                        search_pattern,
-                    ),
-                )
-
-                rows = cursor.fetchall()
-
-                return [
-                    self._format_airport(row)
-                    for row in rows
-                ]
+        return [
+            self._format_airport(row)
+            for row in rows
+        ]
 
 
     def _format_airport(self, row):
