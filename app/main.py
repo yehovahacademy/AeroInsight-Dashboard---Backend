@@ -1,12 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from contextlib import asynccontextmanager
-from fastapi import FastAPI
-
-from app.Database import open_pool, close_pool
-
-
 from app.routes.airlines import router as airline_router
 from app.routes.analytics import router as analytics_router
 from app.routes.airports import router as airports_router
@@ -20,18 +14,11 @@ from app.routes.demand_forecast import router as demand_forecast_router
 from app.routes import weather
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    open_pool()
 
-    yield
-
-    close_pool()
 
 
 app = FastAPI(
     title="AeroInsight API",
-    lifespan=lifespan,
 )
 
 

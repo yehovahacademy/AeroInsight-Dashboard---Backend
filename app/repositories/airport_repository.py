@@ -14,9 +14,12 @@ class AirportRepository:
                         icao_code,
                         airport_name,
                         city,
-                        country,
+                        state_ut,
                         latitude,
-                        longitude
+                        longitude,
+                        elevation_ft,
+                        airport_type,
+                        timezone
                     FROM public.airports
                     WHERE UPPER(iata_code) = UPPER(%s)
                     """,
@@ -24,7 +27,6 @@ class AirportRepository:
                 )
 
                 return cursor.fetchone()
-
 
     def get_by_icao(self, icao: str):
         with get_connection() as connection:
@@ -37,9 +39,12 @@ class AirportRepository:
                         icao_code,
                         airport_name,
                         city,
-                        country,
+                        state_ut,
                         latitude,
-                        longitude
+                        longitude,
+                        elevation_ft,
+                        airport_type,
+                        timezone
                     FROM public.airports
                     WHERE UPPER(icao_code) = UPPER(%s)
                     """,
@@ -47,7 +52,6 @@ class AirportRepository:
                 )
 
                 return cursor.fetchone()
-
 
     def search(self, query: str):
         with get_connection() as connection:
@@ -63,16 +67,19 @@ class AirportRepository:
                         icao_code,
                         airport_name,
                         city,
-                        country,
+                        state_ut,
                         latitude,
-                        longitude
+                        longitude,
+                        elevation_ft,
+                        airport_type,
+                        timezone
                     FROM public.airports
                     WHERE
                         UPPER(iata_code) = UPPER(%s)
                         OR UPPER(icao_code) = UPPER(%s)
                         OR airport_name ILIKE %s
                         OR city ILIKE %s
-                        OR country ILIKE %s
+                        OR state_ut ILIKE %s
                     ORDER BY airport_name
                     LIMIT 20
                     """,

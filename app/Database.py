@@ -1,31 +1,12 @@
-from psycopg import conninfo
-from psycopg_pool import ConnectionPool
+import os
+import psycopg2
+from psycopg2.extensions import connection
 
-
-DATABASE_URL = conninfo.make_conninfo(
-    dbname="AeroInsight",
-    user="postgres",
-    password="Josh@2005",
-    host="localhost",
-    port=5432,
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:Josh%402005@localhost:5432/AeroInsight"
 )
 
 
-pool = ConnectionPool(
-    conninfo=DATABASE_URL,
-    min_size=2,
-    max_size=10,
-    open=False,
-)
-
-
-def open_pool():
-    pool.open()
-
-
-def close_pool():
-    pool.close()
-
-
-def get_connection():
-    return pool.connection()
+def get_connection() -> connection:
+    return psycopg2.connect(DATABASE_URL)
