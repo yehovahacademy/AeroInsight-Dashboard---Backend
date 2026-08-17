@@ -13,6 +13,7 @@ from app.routes.demand_forecast import router as demand_forecast_router
 
 from app.routes import weather
 from app.repositories.route_repository import route_repository
+from app.routes.router import router as route_router
 
 
 
@@ -49,6 +50,7 @@ app.add_middleware(
 
 
 app.include_router(airline_router, prefix="/airlines", tags=["Airlines"])
+app.include_router(route_router, prefix="/routes", tags=["Routes"])
 
 
 
