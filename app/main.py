@@ -39,14 +39,12 @@ def test_routes():
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://your-vercel-frontend.vercel.app",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(airline_router, prefix="/airlines", tags=["Airlines"])
 app.include_router(route_router, prefix="/routes", tags=["Routes"])
