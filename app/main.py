@@ -12,6 +12,9 @@ from app.routes.weather import router as metar_router
 from app.routes.demand_forecast import router as demand_forecast_router
 
 from app.routes import weather
+from app.repositories.route_repository import route_repository
+
+
 
 
 
@@ -19,7 +22,17 @@ from app.routes import weather
 
 app = FastAPI(
     title="AeroInsight API",
+    
 )
+
+@app.get("/test-routes")
+def test_routes():
+    routes = route_repository.get_all()
+
+    return {
+        "count": len(routes),
+        "routes": routes[:5]
+    }
 
 
 
