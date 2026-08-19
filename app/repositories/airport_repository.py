@@ -79,7 +79,7 @@ class AirportRepository:
                         OR UPPER(icao_code) = UPPER(%s)
                         OR airport_name ILIKE %s
                         OR city ILIKE %s
-                        OR state_ut ILIKE %s
+                        OR state ILIKE %s
                     ORDER BY airport_name
                     LIMIT 20
                     """,
