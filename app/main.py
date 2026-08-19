@@ -8,7 +8,6 @@ from app.routes.health import router as health_router
 from app.routes import network
 from app.routes.airport_intelligence import router as airport_router
 from app.routes.fleet import router as fleet_router
-from app.routes.weather import router as metar_router
 from app.routes.demand_forecast import router as demand_forecast_router
 
 from app.routes import weather

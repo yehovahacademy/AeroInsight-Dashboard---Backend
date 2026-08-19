@@ -37,7 +37,7 @@ class AirportLoader:
             "icao": row[2],
             "name": row[3],
             "city": row[4],
-            "country": row[5],
+            "state": row[5],
             "latitude": row[6],
             "longitude": row[7],
         }
