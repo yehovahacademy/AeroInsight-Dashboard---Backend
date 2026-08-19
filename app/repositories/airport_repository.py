@@ -17,7 +17,7 @@ class AirportRepository:
                         state,
                         latitude,
                         longitude,
-                        elevation_ft,
+                        elevation,
                         airport_type,
                         timezone
                     FROM public.airports
@@ -42,7 +42,7 @@ class AirportRepository:
                         state,
                         latitude,
                         longitude,
-                        elevation_ft,
+                        elevation,
                         airport_type,
                         timezone
                     FROM public.airports
@@ -70,7 +70,7 @@ class AirportRepository:
                         state,
                         latitude,
                         longitude,
-                        elevation_ft,
+                        elevation,
                         airport_type,
                         timezone
                     FROM public.airports
