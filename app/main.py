@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routes.airlines import router as airline_router
-
 from app.routes.airports import router as airports_router
 from app.routes.health import router as health_router
 from app.routes import network
@@ -42,7 +40,7 @@ app.add_middleware(
 )
 
 
-app.include_router(airline_router, prefix="/airlines", tags=["Airlines"])
+
 app.include_router(route_router, prefix="/routes", tags=["Routes"])
 
 
