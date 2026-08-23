@@ -10,7 +10,7 @@ class Airport(Base):
     icao_code = Column(String(4), nullable=False)
     airport_name = Column(String(150), nullable=False)
     city = Column(String(100), nullable=False)
-    state_ut = Column(String(100))
+    state = Column(String(100))
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     elevation_ft = Column(Integer)
