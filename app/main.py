@@ -8,6 +8,7 @@ from app.routes import network
 from app.routes.demand_forecast import router as demand_forecast_router
 from app.repositories.route_repository import route_repository
 from app.routes.router import router as route_router
+from app.routes.whatif import router as whatif_router
 
 
 
@@ -40,7 +41,7 @@ app.add_middleware(
 )
 
 
-
+app.include_router(whatif_router, prefix="/network", tags=["Network Planning"])
 app.include_router(route_router, prefix="/routes", tags=["Routes"])
 
 
