@@ -2,15 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.airlines import router as airline_router
-from app.routes.analytics import router as analytics_router
+
 from app.routes.airports import router as airports_router
 from app.routes.health import router as health_router
 from app.routes import network
-from app.routes.airport_intelligence import router as airport_router
-from app.routes.fleet import router as fleet_router
-from app.routes.demand_forecast import router as demand_forecast_router
 
-from app.routes import weather
+from app.routes.demand_forecast import router as demand_forecast_router
 from app.repositories.route_repository import route_repository
 from app.routes.router import router as route_router
 
@@ -49,19 +46,6 @@ app.include_router(airline_router, prefix="/airlines", tags=["Airlines"])
 app.include_router(route_router, prefix="/routes", tags=["Routes"])
 
 
-
-app.include_router(
-    analytics_router,
-    prefix="/analytics",
-    tags=["Analytics"]
-)
-
-app.include_router(
-    weather.router,
-    prefix="/weather",
-    tags=["Weather"]
-)
-
 app.include_router(
     airports_router,
     prefix="/airports",
@@ -80,17 +64,6 @@ app.include_router(
     tags=["Network Planning"]
 )
 
-app.include_router(
-    airport_router,
-    prefix="/airport-intelligence",
-    tags=["Airport Intelligence"]
-)
-
-app.include_router(
-    fleet_router,
-    prefix="/fleet",    
-    tags=["Fleet"]
-)
 
 app.include_router(
     demand_forecast_router,
