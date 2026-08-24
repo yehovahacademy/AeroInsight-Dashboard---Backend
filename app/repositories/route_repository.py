@@ -18,8 +18,8 @@ class RouteRepository:
                         destination,
                         origin_lat,
                         origin_long,
-                        destination_lat,
-                        destination_long,
+                        dest_lat,
+                        dest_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -43,8 +43,8 @@ class RouteRepository:
                         destination,
                         origin_lat,
                         origin_long,
-                        destination_lat,
-                        destination_long,
+                        dest_lat,
+                        dest_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -69,8 +69,8 @@ class RouteRepository:
                         destination,
                         origin_lat,
                         origin_long,
-                        destination_lat,
-                        destination_long,
+                        dest_lat,
+                        dest_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -96,8 +96,8 @@ class RouteRepository:
                         destination,
                         origin_lat,
                         origin_long,
-                        destination_lat,
-                        destination_long,
+                        dest_lat,
+                        dest_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -123,8 +123,8 @@ class RouteRepository:
                         destination,
                         origin_lat,
                         origin_long,
-                        destination_lat,
-                        destination_long,
+                        dest_lat,
+                        dest_long,
                         distance_km,
                         region
                     FROM public.routes
