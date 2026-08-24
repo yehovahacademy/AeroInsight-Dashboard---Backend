@@ -1,3 +1,5 @@
+from app.services.aircraft_service import get_aircraft_capacity
+
 def calculate_what_if(request):
 
     capacity = get_aircraft_capacity(request.aircraft)
