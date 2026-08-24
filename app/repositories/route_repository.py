@@ -14,10 +14,10 @@ class RouteRepository:
                         route_id,
                         origin,
                         destination,
-                        origin_latitude,
-                        origin_longitude,
-                        destination_latitude,
-                        destination_longitude,
+                        origin_lat,
+                        origin_long,
+                        destination_lat,
+                        destination_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -36,10 +36,10 @@ class RouteRepository:
                         route_id,
                         origin,
                         destination,
-                        origin_latitude,
-                        origin_longitude,
-                        destination_latitude,
-                        destination_longitude,
+                        origin_lat,
+                        origin_long,
+                        destination_lat,
+                        destination_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -59,10 +59,10 @@ class RouteRepository:
                         route_id,
                         origin,
                         destination,
-                        origin_latitude,
-                        origin_longitude,
-                        destination_latitude,
-                        destination_longitude,
+                        origin_lat,
+                        origin_long,
+                        destination_lat,
+                        destination_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -83,10 +83,10 @@ class RouteRepository:
                         route_id,
                         origin,
                         destination,
-                        origin_latitude,
-                        origin_longitude,
-                        destination_latitude,
-                        destination_longitude,
+                        origin_lat,
+                        origin_long,
+                        destination_lat,
+                        destination_long,
                         distance_km,
                         region
                     FROM public.routes
@@ -107,10 +107,10 @@ class RouteRepository:
                         route_id,
                         origin,
                         destination,
-                        origin_latitude,
-                        origin_longitude,
-                        destination_latitude,
-                        destination_longitude,
+                        origin_lat,
+                        origin_long,
+                        destination_lat,
+                        destination_long,
                         distance_km,
                         region
                     FROM public.routes
