@@ -45,14 +45,17 @@ class AirportLoader:
 
     def _format_airport(self, row):
         return {
-            "id": row[0],
-            "iata": row[1],
-            "icao": row[2],
-            "name": row[3],
-            "city": row[4],
-            "state": row[5],
-            "latitude": row[6],
-            "longitude": row[7],
+           "id": row["id"],
+        "iata": row["iata"],
+        "icao": row["icao"],
+        "name": row["name"],
+        "city": row["city"],
+        "state": row["state"],
+        "latitude": row["latitude"],
+        "longitude": row["longitude"],
+        "elevation": row["elevation"],
+        "type": row["type"],
+        "timezone": row["timezone"],
         }
 
 
