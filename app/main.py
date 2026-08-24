@@ -10,12 +10,6 @@ from app.repositories.route_repository import route_repository
 from app.routes.router import router as route_router
 from app.routes.whatif import router as whatif_router
 
-
-
-
-
-
-
 app = FastAPI(
     title="AeroInsight API",
     
@@ -35,7 +29,11 @@ def test_routes():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=False,
+    allow_credentials=[
+        "http://localhost:5173"
+        "https://aero-insight-dashboard-frontend.vercel.app"
+
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -30,6 +30,19 @@ class AirportLoader:
         ]
 
 
+
+    def get_all_airports(self):
+        rows = airport_repository.get_all()
+
+        return [
+                self._format_airport(row)
+                for row in rows
+            ]
+    
+
+    
+
+
     def _format_airport(self, row):
         return {
             "id": row[0],

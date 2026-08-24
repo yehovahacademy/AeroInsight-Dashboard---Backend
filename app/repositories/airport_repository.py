@@ -3,6 +3,31 @@ from app.Database import get_connection
 
 class AirportRepository:
 
+    def get_all(self):
+        with get_connection() as connection:
+         with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT
+                    airport_id,
+                    iata_code,
+                    icao_code,
+                    airport_name,
+                    city,
+                    state,
+                    latitude,
+                    longitude,
+                    elevation,
+                    airport_type,
+                    timezone
+                FROM public.airports
+                ORDER BY airport_name
+                """
+            )
+
+            return cursor.fetchall()
+
+
     def get_by_iata(self, iata: str):
         with get_connection() as connection:
             with connection.cursor() as cursor:
