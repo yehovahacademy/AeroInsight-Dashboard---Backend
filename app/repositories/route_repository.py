@@ -12,8 +12,8 @@ class RouteRepository:
                     """
                     SELECT
                         route_id,
-                        origin_iata,
-                        destination_iata,
+                        origin,
+                        destination,
                         origin_latitude,
                         origin_longitude,
                         destination_latitude,
@@ -34,8 +34,8 @@ class RouteRepository:
                     """
                     SELECT
                         route_id,
-                        origin_iata,
-                        destination_iata,
+                        origin,
+                        destination,
                         origin_latitude,
                         origin_longitude,
                         destination_latitude,
@@ -57,8 +57,8 @@ class RouteRepository:
                     """
                     SELECT
                         route_id,
-                        origin_iata,
-                        destination_iata,
+                        origin,
+                        destination,
                         origin_latitude,
                         origin_longitude,
                         destination_latitude,
@@ -81,8 +81,8 @@ class RouteRepository:
                     """
                     SELECT
                         route_id,
-                        origin_iata,
-                        destination_iata,
+                        origin,
+                        destination,
                         origin_latitude,
                         origin_longitude,
                         destination_latitude,
@@ -105,8 +105,8 @@ class RouteRepository:
                     """
                     SELECT
                         route_id,
-                        origin_iata,
-                        destination_iata,
+                        origin,
+                        destination,
                         origin_latitude,
                         origin_longitude,
                         destination_latitude,
