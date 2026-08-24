@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.airports import router as airports_router
 from app.routes.health import router as health_router
-from app.routes import network
+from app.routes import route_analyze
 
 from app.routes.demand_forecast import router as demand_forecast_router
 from app.repositories.route_repository import route_repository
@@ -52,7 +52,7 @@ app.include_router(
 )
 
 app.include_router(
-  network.router,
+  route_analyze.router,
   prefix ="/api/network",
     tags=["Network Planning"]
 )
