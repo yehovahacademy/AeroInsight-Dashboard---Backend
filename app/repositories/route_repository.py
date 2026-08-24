@@ -1,5 +1,4 @@
 from app.Database import get_connection
-import psycopg2
 import psycopg2.extras
 
 
@@ -7,7 +6,10 @@ class RouteRepository:
 
     def get_all(self):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
@@ -29,7 +31,10 @@ class RouteRepository:
 
     def get_by_id(self, route_id: int):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
@@ -52,7 +57,10 @@ class RouteRepository:
 
     def get_from_origin(self, origin: str):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
@@ -66,8 +74,8 @@ class RouteRepository:
                         distance_km,
                         region
                     FROM public.routes
-                    WHERE UPPER(origin_iata) = UPPER(%s)
-                    ORDER BY destination_iata
+                    WHERE UPPER(origin) = UPPER(%s)
+                    ORDER BY destination
                     """,
                     (origin,),
                 )
@@ -76,7 +84,10 @@ class RouteRepository:
 
     def get_to_destination(self, destination: str):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
@@ -90,8 +101,8 @@ class RouteRepository:
                         distance_km,
                         region
                     FROM public.routes
-                    WHERE UPPER(destination_iata) = UPPER(%s)
-                    ORDER BY origin_iata
+                    WHERE UPPER(destination) = UPPER(%s)
+                    ORDER BY origin
                     """,
                     (destination,),
                 )
@@ -100,7 +111,10 @@ class RouteRepository:
 
     def get_route(self, origin: str, destination: str):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
@@ -115,8 +129,8 @@ class RouteRepository:
                         region
                     FROM public.routes
                     WHERE
-                        UPPER(origin_iata) = UPPER(%s)
-                        AND UPPER(destination_iata) = UPPER(%s)
+                        UPPER(origin) = UPPER(%s)
+                        AND UPPER(destination) = UPPER(%s)
                     """,
                     (origin, destination),
                 )
