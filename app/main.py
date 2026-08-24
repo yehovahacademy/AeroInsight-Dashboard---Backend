@@ -29,11 +29,7 @@ def test_routes():
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=[
-        "http://localhost:5173"
-        "https://aero-insight-dashboard-frontend.vercel.app"
-
-    ],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

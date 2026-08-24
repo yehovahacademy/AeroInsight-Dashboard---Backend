@@ -1,11 +1,13 @@
 from app.Database import get_connection
+import psycopg2
+import psycopg2.extras
 
 
 class AirportRepository:
 
     def get_all(self):
         with get_connection() as connection:
-         with connection.cursor() as cursor:
+           with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
             cursor.execute(
                 """
                 SELECT
@@ -30,7 +32,7 @@ class AirportRepository:
 
     def get_by_iata(self, iata: str):
         with get_connection() as connection:
-            with connection.cursor() as cursor:
+            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                 cursor.execute(
                     """
                     SELECT
@@ -55,7 +57,7 @@ class AirportRepository:
 
     def get_by_icao(self, icao: str):
         with get_connection() as connection:
-            with connection.cursor() as cursor:
+            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                 cursor.execute(
                     """
                     SELECT
@@ -80,7 +82,7 @@ class AirportRepository:
 
     def search(self, query: str):
         with get_connection() as connection:
-            with connection.cursor() as cursor:
+            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
 
                 search_pattern = f"%{query}%"
 

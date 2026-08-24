@@ -4,7 +4,6 @@ from app.services.route_service import route_service
 
 
 router = APIRouter(
-    prefix="/api/routes",
     tags=["Routes"],
 )
 
