@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 class RouteResponse(BaseModel):
     route_id: int
     origin_iata: str
