@@ -58,7 +58,7 @@ app.add_middleware(
 
 app.include_router(market_router, prefix="/markets", tags=["Markets"])
 app.include_router(monthly_demand_router, prefix="/monthly_demand", tags=["Monthly Demand"])
-app.include_router(historical_traffic_router, prefix="/historical_traffic", tags=["Historical)Traffic"])
+app.include_router(historical_traffic_router, prefix="/historical_traffic", tags=["Historical Traffic"])
 app.include_router(monthly_capacity_router, prefix="/monthly_capacity", tags=["Monthly Capacity"])
 
 
