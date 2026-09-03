@@ -1,4 +1,4 @@
-from app.Database import get_connection
+from app.database import get_connection
 import psycopg2
 import psycopg2.extras
 
@@ -7,48 +7,53 @@ class AirportRepository:
 
     def get_all(self):
         with get_connection() as connection:
-           with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
-            cursor.execute(
-                """
-                SELECT
-                    airport_id,
-                    iata_code,
-                    icao_code,
-                    airport_name,
-                    city,
-                    state,
-                    latitude,
-                    longitude,
-                    elevation,
-                    airport_type,
-                    timezone
-                FROM public.airports
-                ORDER BY airport_name
-                """
-            )
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
 
-            return cursor.fetchall()
-
-
-    def get_by_iata(self, iata: str):
-        with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                 cursor.execute(
                     """
                     SELECT
                         airport_id,
-                        iata_code,
-                        icao_code,
+                        iata,
+                        icao,
                         airport_name,
                         city,
-                        state,
+                        country,
+                        region,
                         latitude,
                         longitude,
-                        elevation,
-                        airport_type,
-                        timezone
+                        airport_role,
+                        data_type
                     FROM public.airports
-                    WHERE UPPER(iata_code) = UPPER(%s)
+                    ORDER BY airport_name
+                    """
+                )
+
+                return cursor.fetchall()
+
+    def get_by_iata(self, iata: str):
+        with get_connection() as connection:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
+                cursor.execute(
+                    """
+                    SELECT
+                        airport_id,
+                        iata,
+                        icao,
+                        airport_name,
+                        city,
+                        country,
+                        region,
+                        latitude,
+                        longitude,
+                        airport_role,
+                        data_type
+                    FROM public.airports
+                    WHERE UPPER(iata) = UPPER(%s)
                     """,
                     (iata,),
                 )
@@ -57,23 +62,26 @@ class AirportRepository:
 
     def get_by_icao(self, icao: str):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute(
                     """
                     SELECT
                         airport_id,
-                        iata_code,
-                        icao_code,
+                        iata,
+                        icao,
                         airport_name,
                         city,
-                        state,
+                        country,
+                        region,
                         latitude,
                         longitude,
-                        elevation,
-                        airport_type,
-                        timezone
+                        airport_role,
+                        data_type
                     FROM public.airports
-                    WHERE UPPER(icao_code) = UPPER(%s)
+                    WHERE UPPER(icao) = UPPER(%s)
                     """,
                     (icao,),
                 )
@@ -82,7 +90,9 @@ class AirportRepository:
 
     def search(self, query: str):
         with get_connection() as connection:
-            with connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
 
                 search_pattern = f"%{query}%"
 
@@ -90,23 +100,24 @@ class AirportRepository:
                     """
                     SELECT
                         airport_id,
-                        iata_code,
-                        icao_code,
+                        iata,
+                        icao,
                         airport_name,
                         city,
-                        state,
+                        country,
+                        region,
                         latitude,
                         longitude,
-                        elevation,
-                        airport_type,
-                        timezone
+                        airport_role,
+                        data_type
                     FROM public.airports
                     WHERE
-                        UPPER(iata_code) = UPPER(%s)
-                        OR UPPER(icao_code) = UPPER(%s)
+                        UPPER(iata) = UPPER(%s)
+                        OR UPPER(icao) = UPPER(%s)
                         OR airport_name ILIKE %s
                         OR city ILIKE %s
-                        OR state ILIKE %s
+                        OR country ILIKE %s
+                        OR region ILIKE %s
                     ORDER BY airport_name
                     LIMIT 20
                     """,

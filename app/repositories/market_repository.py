@@ -1,8 +1,8 @@
-from app.Database import get_connection
+from app.database import get_connection
 import psycopg2.extras
 
 
-class RouteRepository:
+class MarketRepository:
 
     def get_all(self):
         with get_connection() as connection:
@@ -13,23 +13,24 @@ class RouteRepository:
                 cursor.execute(
                     """
                     SELECT
-                        route_id,
+                        market_id,
                         origin,
                         destination,
-                        origin_lat,
-                        origin_long,
-                        dest_lat,
-                        dest_long,
                         distance_km,
-                        region
-                    FROM public.routes
-                    ORDER BY route_id
+                        market_region,
+                        market_type,
+                        business_share,
+                        leisure_share,
+                        connecting_share,
+                        data_type
+                    FROM public.markets
+                    ORDER BY market_id
                     """
                 )
 
                 return cursor.fetchall()
 
-    def get_by_id(self, route_id: int):
+    def get_by_id(self, market_id: str):
         with get_connection() as connection:
             with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
@@ -38,19 +39,20 @@ class RouteRepository:
                 cursor.execute(
                     """
                     SELECT
-                        route_id,
+                        market_id,
                         origin,
                         destination,
-                        origin_lat,
-                        origin_long,
-                        dest_lat,
-                        dest_long,
                         distance_km,
-                        region
-                    FROM public.routes
-                    WHERE route_id = %s
+                        market_region,
+                        market_type,
+                        business_share,
+                        leisure_share,
+                        connecting_share,
+                        data_type
+                    FROM public.markets
+                    WHERE market_id = %s
                     """,
-                    (route_id,),
+                    (market_id,),
                 )
 
                 return cursor.fetchone()
@@ -64,16 +66,17 @@ class RouteRepository:
                 cursor.execute(
                     """
                     SELECT
-                        route_id,
+                        market_id,
                         origin,
                         destination,
-                        origin_lat,
-                        origin_long,
-                        dest_lat,
-                        dest_long,
                         distance_km,
-                        region
-                    FROM public.routes
+                        market_region,
+                        market_type,
+                        business_share,
+                        leisure_share,
+                        connecting_share,
+                        data_type
+                    FROM public.markets
                     WHERE UPPER(origin) = UPPER(%s)
                     ORDER BY destination
                     """,
@@ -91,16 +94,17 @@ class RouteRepository:
                 cursor.execute(
                     """
                     SELECT
-                        route_id,
+                        market_id,
                         origin,
                         destination,
-                        origin_lat,
-                        origin_long,
-                        dest_lat,
-                        dest_long,
                         distance_km,
-                        region
-                    FROM public.routes
+                        market_region,
+                        market_type,
+                        business_share,
+                        leisure_share,
+                        connecting_share,
+                        data_type
+                    FROM public.markets
                     WHERE UPPER(destination) = UPPER(%s)
                     ORDER BY origin
                     """,
@@ -109,7 +113,7 @@ class RouteRepository:
 
                 return cursor.fetchall()
 
-    def get_route(self, origin: str, destination: str):
+    def get_market(self, origin: str, destination: str):
         with get_connection() as connection:
             with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
@@ -118,16 +122,17 @@ class RouteRepository:
                 cursor.execute(
                     """
                     SELECT
-                        route_id,
+                        market_id,
                         origin,
                         destination,
-                        origin_lat,
-                        origin_long,
-                        dest_lat,
-                        dest_long,
                         distance_km,
-                        region
-                    FROM public.routes
+                        market_region,
+                        market_type,
+                        business_share,
+                        leisure_share,
+                        connecting_share,
+                        data_type
+                    FROM public.markets
                     WHERE
                         UPPER(origin) = UPPER(%s)
                         AND UPPER(destination) = UPPER(%s)
@@ -138,4 +143,4 @@ class RouteRepository:
                 return cursor.fetchone()
 
 
-route_repository = RouteRepository()
+market_repository = MarketRepository()
