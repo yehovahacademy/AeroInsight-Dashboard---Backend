@@ -5,8 +5,11 @@ from app.routes.airports import router as airports_router
 from app.routes.health import router as health_router
 from app.routes import route_analyze
 
+from app.routes.monthly_demand_router import router as monthly_demand_router
+from app.routes.historical_traffic_router import router as historical_traffic_router
+
 from app.routes.demand_forecast import router as demand_forecast_router
-from app.repositories.market_repository import market_repository
+from app.repositories.market_repository import market_repository as market_router
 from app.routes.market_router import router as market_router
 from app.routes.whatif import router as whatif_router
 
@@ -38,12 +41,6 @@ async def protected(token: str = Depends(oauth2_scheme)):
     }
 
 
-    
-    
-
-
-
-
 
 app.add_middleware(
     CORSMiddleware,
@@ -59,6 +56,8 @@ app.add_middleware(
 
 app.include_router(whatif_router, prefix="/network", tags=["Network Planning"])
 app.include_router(market_router, prefix="/markets", tags=["Markets"])
+app.include_router(monthly_demand_router, prefix="/monthly_demand", tags=["Monthly Demand"])
+app.include_router(historical_traffic_router, prefix="/historical_traffic", tags=["Historical)Traffic"])
 
 
 app.include_router(
