@@ -10,7 +10,7 @@ from app.routes.historical_traffic_router import router as historical_traffic_ro
 from app.routes.demand_forecast import router as demand_forecast_router
 from app.repositories.market_repository import market_repository as market_router
 from app.routes.market_router import router as market_router
-from app.routes.whatif import router as whatif_router
+
 
 from app.routes.monthly_capacity_router import router as monthly_capacity_router
 
