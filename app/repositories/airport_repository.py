@@ -88,49 +88,52 @@ class AirportRepository:
 
                 return cursor.fetchone()
 
-    def search(self, query: str):
-        with get_connection() as connection:
-            with connection.cursor(
-                cursor_factory=psycopg2.extras.RealDictCursor
-            ) as cursor:
+def search(self, query: str):
+    with get_connection() as connection:
+        with connection.cursor(
+            cursor_factory=psycopg2.extras.RealDictCursor
+        ) as cursor:
 
-                search_pattern = f"%{query}%"
+            search_pattern = f"%{query}%"
 
-                cursor.execute(
-                    """
-                    SELECT
-                        airport_id,
-                        iata,
-                        icao,
-                        airport_name,
-                        city,
-                        country,
-                        region,
-                        latitude,
-                        longitude,
-                        airport_role,
-                        data_type
-                    FROM public.airports
-                    WHERE
-                        UPPER(iata) = UPPER(%s)
-                        OR UPPER(icao) = UPPER(%s)
-                        OR airport_name ILIKE %s
-                        OR city ILIKE %s
-                        OR country ILIKE %s
-                        OR region ILIKE %s
-                    ORDER BY airport_name
-                    LIMIT 20
-                    """,
-                    (
-                        query,
-                        query,
-                        search_pattern,
-                        search_pattern,
-                        search_pattern,
-                    ),
-                )
+            cursor.execute(
+                """
+                SELECT
+                    airport_id,
+                    iata,
+                    icao,
+                    airport_name,
+                    city,
+                    country,
+                    region,
+                    latitude,
+                    longitude,
+                    airport_role,
+                    data_type
+                FROM public.airports
+                WHERE
+                    UPPER(iata) = UPPER(%s)
+                    OR UPPER(icao) = UPPER(%s)
+                    OR airport_name ILIKE %s
+                    OR city ILIKE %s
+                    OR country ILIKE %s
+                    OR region ILIKE %s
+                ORDER BY airport_name
+                LIMIT 20
+                """,
+                (
+                    query,
+                    query,
+                    search_pattern,
+                    search_pattern,
+                    search_pattern,
+                    search_pattern,
+                ),
+            )
 
-                return cursor.fetchall()
+            return cursor.fetchall()
+
+                
 
 
 airport_repository = AirportRepository()
