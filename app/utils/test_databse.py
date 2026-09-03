@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 
-from Database import get_db
+from database import get_db
 from models.airport_model import Airport
 
 app = FastAPI()
