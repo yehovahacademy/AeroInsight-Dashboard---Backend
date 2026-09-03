@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.airports import router as airports_router
-from app.routes.health import router as health_router
 from app.routes import route_analyze
 
 from app.routes.monthly_demand_router import router as monthly_demand_router
@@ -12,6 +11,8 @@ from app.routes.demand_forecast import router as demand_forecast_router
 from app.repositories.market_repository import market_repository as market_router
 from app.routes.market_router import router as market_router
 from app.routes.whatif import router as whatif_router
+
+from app.routes.monthly_capacity_router import router as monthly_capacity_router
 
 
 from fastapi import FastAPI, Depends
@@ -54,10 +55,11 @@ app.add_middleware(
 )
 
 
-app.include_router(whatif_router, prefix="/network", tags=["Network Planning"])
+
 app.include_router(market_router, prefix="/markets", tags=["Markets"])
 app.include_router(monthly_demand_router, prefix="/monthly_demand", tags=["Monthly Demand"])
 app.include_router(historical_traffic_router, prefix="/historical_traffic", tags=["Historical)Traffic"])
+app.include_router(monthly_capacity_router, prefix="/monthly_capacity", tags=["Monthly Capacity"])
 
 
 app.include_router(
@@ -66,11 +68,7 @@ app.include_router(
     tags=["Airports"]
 )
 
-app.include_router(
-    health_router,  
-    prefix="/health",
-    tags=["Health"]
-)
+
 
 app.include_router(
   route_analyze.router,
