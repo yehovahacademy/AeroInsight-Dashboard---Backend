@@ -1,16 +1,19 @@
-AIRCRAFT_CAPACITY = {
-    "A320": 180,
-    "A321neo": 236,
-    "B737 MAX": 178,
-    "B777": 396,
-    "ATR 72": 78,
-}
+from app.repositories.aircraft_repository import aircraft_repository
 
 
-def get_aircraft_capacity(aircraft: str):
-    capacity = AIRCRAFT_CAPACITY.get(aircraft)
+class AircraftService:
 
-    if capacity is None:
-        raise ValueError(f"Unsupported aircraft: {aircraft}")
+    def get_all_aircraft(self):
+        return aircraft_repository.get_all()
 
-    return capacity
+    def get_aircraft_by_type(self, aircraft_type: str):
+        return aircraft_repository.get_by_type(aircraft_type)
+
+    def get_aircraft_by_manufacturer(self, manufacturer: str):
+        return aircraft_repository.get_by_manufacturer(manufacturer)
+
+    def search_aircraft(self, query: str):
+        return aircraft_repository.search(query)
+
+
+aircraft_service = AircraftService()
