@@ -5,7 +5,7 @@ from contextlib import contextmanager
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql://aeroinsight_db_user:oL8bfOwLae3BESztUZXZb3kjGsW99rCA@dpg-da1gv87lk1mc73a1n64g-a/aeroinsight_db"
+    "postgresql://aeroinsight_db_user:oL8bfOwLae3BESztUZXZb3kjGsW99rCA@dpg-da1gv87lk1mc73a1n64g-a.singapore-postgres.render.com/aeroinsight_db"
 )
 
 @contextmanager

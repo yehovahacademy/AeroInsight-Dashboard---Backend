@@ -14,6 +14,7 @@ from app.routes.market_router import router as market_router
 
 from app.routes.monthly_capacity_router import router as monthly_capacity_router
 from app.routes.competition_router import router as competition_router
+from app.routes.market_fare_router import router as market_fare_router
 
 
 from fastapi import FastAPI, Depends
@@ -83,6 +84,12 @@ app.include_router(
     demand_forecast_router,
     prefix="/demand-forecast",
     tags=["Demand Forecast"]
+)
+
+app.include_router(
+    market_fare_router,
+    prefix="/market-fares",
+    tags=["Market Fares"]
 )
 
 
