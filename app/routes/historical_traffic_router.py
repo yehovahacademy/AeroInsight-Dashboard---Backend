@@ -20,6 +20,26 @@ async def get_all_traffic():
     }
 
 
+@router.get("/route/{origin}/{destination}")
+async def get_traffic_by_route(
+    origin: str,
+    destination: str,
+    year: int | None = Query(default=None, ge=2020),
+    month: int | None = Query(default=None, ge=1, le=12),
+):
+    traffic = historical_traffic_service.get_traffic_by_route(
+        origin=origin.upper(),
+        destination=destination.upper(),
+        year=year,
+        month=month,
+    )
+
+    return {
+        "count": len(traffic),
+        "traffic": traffic,
+    }
+
+
 @router.get("/market/{market_id}")
 async def get_traffic_by_market(
     market_id: str,
@@ -52,6 +72,26 @@ async def get_traffic_by_origin(origin: str):
 async def get_traffic_by_destination(destination: str):
     traffic = historical_traffic_service.get_traffic_by_destination(
         destination
+    )
+
+    return {
+        "count": len(traffic),
+        "traffic": traffic,
+    }
+
+
+@router.get("/route/{origin}/{destination}")
+async def get_traffic_by_route(
+    origin: str,
+    destination: str,
+    year: int | None = Query(default=None, ge=2020),
+    month: int | None = Query(default=None, ge=1, le=12),
+):
+    traffic = historical_traffic_service.get_traffic_by_route(
+        origin=origin.upper(),
+        destination=destination.upper(),
+        year=year,
+        month=month,
     )
 
     return {

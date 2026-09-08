@@ -167,4 +167,53 @@ class HistoricalTrafficRepository:
                 return cursor.fetchall()
 
 
+
+def get_by_route(
+        self,
+        origin: str,
+        destination: str,
+        year: int | None = None,
+        month: int | None = None,
+    ):
+       with get_connection() as connection:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
+                query = """
+                    SELECT
+                        traffic_id,
+                        market_id,
+                        year,
+                        month,
+                        origin,
+                        destination,
+                        passengers,
+                        flights,
+                        available_seats,
+                        load_factor,
+                        traffic_type,
+                        data_type
+                    FROM public.historical_traffic
+                    WHERE UPPER(origin) = UPPER(%s)
+                      AND UPPER(destination) = UPPER(%s)
+                """
+
+                params = [origin, destination]
+
+                if year is not None:
+                    query += " AND year = %s"
+                    params.append(year)
+
+                if month is not None:
+                    query += " AND month = %s"
+                    params.append(month)
+
+                query += " ORDER BY year, month"
+
+                cursor.execute(query, params)
+
+                return cursor.fetchall()
+
+
 historical_traffic_repository = HistoricalTrafficRepository()
