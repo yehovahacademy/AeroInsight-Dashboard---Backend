@@ -22,6 +22,10 @@ from app.routes.route_opportunity_router import (
     router as route_opportunity_router
 )
 
+from app.routes.candidate_route_router import (
+    router as candidate_route_router
+)
+
 
 from fastapi import FastAPI, Depends
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -73,6 +77,7 @@ app.include_router(operating_cost_router)
 app.include_router(scenario_route_router)
 
 app.include_router(route_opportunity_router)
+app.include_router(candidate_route_router)
 
 
 
