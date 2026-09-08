@@ -16,6 +16,7 @@ from app.routes.monthly_capacity_router import router as monthly_capacity_router
 from app.routes.competition_router import router as competition_router
 from app.routes.market_fare_router import router as market_fare_router
 from app.routes.operating_cost_router import router as operating_cost_router
+from app.routes.scenario_route_router import router as scenario_route_router
 
 
 from fastapi import FastAPI, Depends
@@ -64,7 +65,9 @@ app.include_router(monthly_demand_router, prefix="/monthly_demand", tags=["Month
 app.include_router(historical_traffic_router, prefix="/historical_traffic", tags=["Historical Traffic"])
 app.include_router(monthly_capacity_router, prefix="/monthly_capacity", tags=["Monthly Capacity"])
 app.include_router(competition_router, prefix="/competition", tags=["Competition"])
-app.include_router(operating_cost_router)
+app.include_router(operating_cost_router, prefix="/operating_cost", tags=["Operating Cost"])
+app.include_router(scenario_route_router, prefix = "/scenario_route", tags = ["Scenario Route"])
+
 
 
 app.include_router(
