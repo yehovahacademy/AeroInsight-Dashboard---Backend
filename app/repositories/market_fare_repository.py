@@ -144,34 +144,30 @@ class MarketFareRepository:
 
                 return cursor.fetchall()
 
+    def get_by_period(self, year: int, month: int):
+        with get_connection() as connection:
+            with connection.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
 
-def get_by_period(self, year: int, month: int):
-    with get_connection() as connection:
-        with connection.cursor(
-            cursor_factory=psycopg2.extras.RealDictCursor
-        ) as cursor:
+                cursor.execute("""
+                    SELECT
+                        fare_id,
+                        market_id,
+                        year,
+                        month,
+                        average_one_way_fare_inr,
+                        business_fare_index,
+                        leisure_fare_index,
+                        fare_volatility,
+                        data_type
+                    FROM public.market_fares
+                    WHERE year = %s
+                      AND month = %s
+                    ORDER BY market_id
+                """, (year, month))
 
-            cursor.execute(
-                """
-                SELECT
-                    fare_id,
-                    market_id,
-                    year,
-                    month,
-                    average_one_way_fare_inr,
-                    business_fare_index,
-                    leisure_fare_index,
-                    fare_volatility,
-                    data_type
-                FROM market_fares
-                WHERE year = %s
-                  AND month = %s
-                ORDER BY market_id
-                """,
-                (year, month)
-            )
-
-            return cursor.fetchall()     
+                return cursor.fetchall()
 
 
 market_fare_repository = MarketFareRepository()
