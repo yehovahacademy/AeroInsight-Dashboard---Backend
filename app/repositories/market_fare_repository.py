@@ -5,10 +5,8 @@ import psycopg2.extras
 class MarketFareRepository:
 
     def get_all(self):
-        conn = get_connection()
-
-        try:
-            with conn.cursor(
+        with get_connection() as connection:
+            with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
@@ -29,14 +27,9 @@ class MarketFareRepository:
 
                 return cursor.fetchall()
 
-        finally:
-            conn.close()
-
     def get_by_id(self, fare_id: str):
-        conn = get_connection()
-
-        try:
-            with conn.cursor(
+        with get_connection() as connection:
+            with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
@@ -57,19 +50,14 @@ class MarketFareRepository:
 
                 return cursor.fetchone()
 
-        finally:
-            conn.close()
-
     def get_by_market(
         self,
         market_id: str,
         year: int | None = None,
         month: int | None = None
     ):
-        conn = get_connection()
-
-        try:
-            with conn.cursor(
+        with get_connection() as connection:
+            with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
@@ -104,14 +92,9 @@ class MarketFareRepository:
 
                 return cursor.fetchall()
 
-        finally:
-            conn.close()
-
     def get_by_origin(self, origin: str):
-        conn = get_connection()
-
-        try:
-            with conn.cursor(
+        with get_connection() as connection:
+            with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
@@ -135,14 +118,9 @@ class MarketFareRepository:
 
                 return cursor.fetchall()
 
-        finally:
-            conn.close()
-
     def get_by_destination(self, destination: str):
-        conn = get_connection()
-
-        try:
-            with conn.cursor(
+        with get_connection() as connection:
+            with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
@@ -165,9 +143,6 @@ class MarketFareRepository:
                 """, (destination,))
 
                 return cursor.fetchall()
-
-        finally:
-            conn.close()
 
 
 market_fare_repository = MarketFareRepository()
