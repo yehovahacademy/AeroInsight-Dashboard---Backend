@@ -20,7 +20,7 @@ async def get_all_demand():
 @router.get("/market/{market_id}")
 async def get_demand_by_market(
     market_id: str,
-    year: int | None = Query(default=None, ge=2020),
+    year: int | None = Query(default=None, ge=2016),
     month: int | None = Query(default=None, ge=1, le=12)
 ):
 
