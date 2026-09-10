@@ -14,12 +14,12 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline,
-                        nonstop,
-                        weekly_frequency,
+                        airline_name AS airline,
+                        is_direct_competitor AS nonstop,
+                        frequency_per_week AS weekly_frequency,
                         aircraft_type,
-                        estimated_market_share,
-                        competition_strength,
+                        market_share AS estimated_market_share,
+                        competitive_strength AS competition_strength,
                         data_type
                     FROM public.competition
                     ORDER BY competition_id
@@ -37,12 +37,12 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline,
-                        nonstop,
-                        weekly_frequency,
+                        airline_name AS airline,
+                        is_direct_competitor AS nonstop,
+                        frequency_per_week AS weekly_frequency,
                         aircraft_type,
-                        estimated_market_share,
-                        competition_strength,
+                        market_share AS estimated_market_share,
+                        competitive_strength AS competition_strength,
                         data_type
                     FROM public.competition
                     WHERE competition_id = %s
@@ -60,16 +60,16 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline,
-                        nonstop,
-                        weekly_frequency,
+                        airline_name AS airline,
+                        is_direct_competitor AS nonstop,
+                        frequency_per_week AS weekly_frequency,
                         aircraft_type,
-                        estimated_market_share,
-                        competition_strength,
+                        market_share AS estimated_market_share,
+                        competitive_strength AS competition_strength,
                         data_type
                     FROM public.competition
                     WHERE market_id = %s
-                    ORDER BY estimated_market_share DESC
+                    ORDER BY market_share DESC
                 """, (market_id,))
 
                 return cursor.fetchall()
@@ -84,15 +84,15 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline,
-                        nonstop,
-                        weekly_frequency,
+                        airline_name AS airline,
+                        is_direct_competitor AS nonstop,
+                        frequency_per_week AS weekly_frequency,
                         aircraft_type,
-                        estimated_market_share,
-                        competition_strength,
+                        market_share AS estimated_market_share,
+                        competitive_strength AS competition_strength,
                         data_type
                     FROM public.competition
-                    WHERE UPPER(airline) = UPPER(%s)
+                    WHERE UPPER(airline_name) = UPPER(%s)
                     ORDER BY market_id
                 """, (airline,))
 
