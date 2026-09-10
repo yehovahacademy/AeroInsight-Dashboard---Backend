@@ -1,5 +1,4 @@
 from app.database import get_connection
-import psycopg2
 import psycopg2.extras
 
 
@@ -11,8 +10,7 @@ class CompetitionRepository:
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
-                cursor.execute(
-                    """
+                cursor.execute("""
                     SELECT
                         competition_id,
                         market_id,
@@ -25,8 +23,7 @@ class CompetitionRepository:
                         data_type
                     FROM public.competition
                     ORDER BY competition_id
-                    """
-                )
+                """)
 
                 return cursor.fetchall()
 
@@ -36,8 +33,7 @@ class CompetitionRepository:
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
-                cursor.execute(
-                    """
+                cursor.execute("""
                     SELECT
                         competition_id,
                         market_id,
@@ -50,9 +46,7 @@ class CompetitionRepository:
                         data_type
                     FROM public.competition
                     WHERE competition_id = %s
-                    """,
-                    (competition_id,),
-                )
+                """, (competition_id,))
 
                 return cursor.fetchone()
 
@@ -62,8 +56,7 @@ class CompetitionRepository:
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
-                cursor.execute(
-                    """
+                cursor.execute("""
                     SELECT
                         competition_id,
                         market_id,
@@ -77,9 +70,7 @@ class CompetitionRepository:
                     FROM public.competition
                     WHERE market_id = %s
                     ORDER BY estimated_market_share DESC
-                    """,
-                    (market_id,),
-                )
+                """, (market_id,))
 
                 return cursor.fetchall()
 
@@ -89,8 +80,7 @@ class CompetitionRepository:
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
 
-                cursor.execute(
-                    """
+                cursor.execute("""
                     SELECT
                         competition_id,
                         market_id,
@@ -104,9 +94,7 @@ class CompetitionRepository:
                     FROM public.competition
                     WHERE UPPER(airline) = UPPER(%s)
                     ORDER BY market_id
-                    """,
-                    (airline,),
-                )
+                """, (airline,))
 
                 return cursor.fetchall()
 
