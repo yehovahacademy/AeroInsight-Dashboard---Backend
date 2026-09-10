@@ -4,24 +4,33 @@ from pydantic import BaseModel, Field
 class RouteOpportunityResponse(BaseModel):
     market_id: str
 
-    annual_demand: float = Field(..., ge=0)
-    annual_existing_capacity: float = Field(..., ge=0)
+    origin: str
+    destination: str
+    planning_year: int
 
-    average_load_factor: float = Field(..., ge=0)
-    average_fare: float = Field(..., ge=0)
-
-    competition_level: str
-
+    forecast_demand: float = Field(..., ge=0)
+    existing_capacity: float = Field(..., ge=0)
     capacity_gap: float
 
-    estimated_revenue_potential: float = Field(..., ge=0)
-    estimated_profit_potential: float
+    expected_passengers: float = Field(..., ge=0)
+    expected_load_factor: float = Field(..., ge=0)
+    average_fare: float = Field(..., ge=0)
 
-    aircraft_suitability_score: float = Field(..., ge=0)
-    seasonality_score: float = Field(..., ge=0)
-    network_connectivity_score: float = Field(..., ge=0)
+    revenue_opportunity: float = Field(..., ge=0)
+    estimated_operating_cost: float = Field(..., ge=0)
+    profit_opportunity: float
 
-    overall_opportunity_score: float = Field(..., ge=0)
+    profit_margin: float
+
+    competition_score: float = Field(..., ge=0)
+    demand_score: float = Field(..., ge=0)
+    capacity_gap_score: float = Field(..., ge=0)
+    fare_score: float = Field(..., ge=0)
+    profitability_score: float = Field(..., ge=0)
+    strategic_score: float = Field(..., ge=0)
+    risk_score: float = Field(..., ge=0)
+
+    opportunity_score: float = Field(..., ge=0)
 
     recommendation: str
     data_type: str

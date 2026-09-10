@@ -42,9 +42,33 @@ def get_route_opportunities_by_recommendation(
 
 
 @router.get(
+    "/origin/{origin}",
+    response_model=List[RouteOpportunityResponse]
+)
+def get_route_opportunities_by_origin(
+    origin: str
+):
+
+    return service.get_by_origin(origin)
+
+
+@router.get(
+    "/destination/{destination}",
+    response_model=List[RouteOpportunityResponse]
+)
+def get_route_opportunities_by_destination(
+    destination: str
+):
+
+    return service.get_by_destination(destination)
+
+
+@router.get(
     "/{market_id}",
     response_model=RouteOpportunityResponse
 )
-def get_route_opportunity(market_id: str):
+def get_route_opportunity(
+    market_id: str
+):
 
     return service.get_by_market(market_id)

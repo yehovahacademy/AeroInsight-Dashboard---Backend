@@ -24,7 +24,16 @@ class RouteOpportunityService:
 
         return result
 
+    def get_by_origin(self, origin: str):
+        return self.repository.get_by_origin(origin)
+
+    def get_by_destination(self, destination: str):
+        return self.repository.get_by_destination(destination)
+
     def get_by_recommendation(self, recommendation: str):
         return self.repository.get_by_recommendation(
             recommendation
         )
+
+    def get_top_opportunities(self, limit: int = 10):
+        return self.repository.get_top_opportunities(limit)
