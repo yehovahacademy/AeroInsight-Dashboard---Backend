@@ -8,7 +8,10 @@ class MonthlyDemandRepository:
         conn = get_connection()
 
         try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute("""
                     SELECT
                         demand_id,
@@ -35,7 +38,10 @@ class MonthlyDemandRepository:
         conn = get_connection()
 
         try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute("""
                     SELECT
                         demand_id,
@@ -67,7 +73,9 @@ class MonthlyDemandRepository:
         conn = get_connection()
 
         try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
 
                 query = """
                     SELECT
@@ -109,7 +117,10 @@ class MonthlyDemandRepository:
         conn = get_connection()
 
         try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute("""
                     SELECT
                         d.demand_id,
@@ -139,7 +150,10 @@ class MonthlyDemandRepository:
         conn = get_connection()
 
         try:
-            with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
+            with conn.cursor(
+                cursor_factory=psycopg2.extras.RealDictCursor
+            ) as cursor:
+
                 cursor.execute("""
                     SELECT
                         d.demand_id,

@@ -166,16 +166,14 @@ class HistoricalTrafficRepository:
 
                 return cursor.fetchall()
 
-
-
-def get_by_route(
+    def get_by_route(
         self,
         origin: str,
         destination: str,
         year: int | None = None,
         month: int | None = None,
     ):
-       with get_connection() as connection:
+        with get_connection() as connection:
             with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:

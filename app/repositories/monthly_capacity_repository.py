@@ -1,4 +1,3 @@
-
 from app.database import get_connection
 import psycopg2.extras
 
@@ -6,7 +5,9 @@ import psycopg2.extras
 class MonthlyCapacityRepository:
 
     def get_all(self):
-        with get_connection() as conn:
+        conn = get_connection()
+
+        try:
             with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
@@ -29,8 +30,13 @@ class MonthlyCapacityRepository:
 
                 return cursor.fetchall()
 
+        finally:
+            conn.close()
+
     def get_by_id(self, capacity_id: str):
-        with get_connection() as conn:
+        conn = get_connection()
+
+        try:
             with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
@@ -53,13 +59,18 @@ class MonthlyCapacityRepository:
 
                 return cursor.fetchone()
 
+        finally:
+            conn.close()
+
     def get_by_market(
         self,
         market_id: str,
         year: int | None = None,
         month: int | None = None
     ):
-        with get_connection() as conn:
+        conn = get_connection()
+
+        try:
             with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
@@ -96,8 +107,13 @@ class MonthlyCapacityRepository:
 
                 return cursor.fetchall()
 
+        finally:
+            conn.close()
+
     def get_by_origin(self, origin: str):
-        with get_connection() as conn:
+        conn = get_connection()
+
+        try:
             with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
@@ -123,8 +139,13 @@ class MonthlyCapacityRepository:
 
                 return cursor.fetchall()
 
+        finally:
+            conn.close()
+
     def get_by_destination(self, destination: str):
-        with get_connection() as conn:
+        conn = get_connection()
+
+        try:
             with conn.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
             ) as cursor:
@@ -150,6 +171,8 @@ class MonthlyCapacityRepository:
 
                 return cursor.fetchall()
 
+        finally:
+            conn.close()
+
 
 monthly_capacity_repository = MonthlyCapacityRepository()
-
