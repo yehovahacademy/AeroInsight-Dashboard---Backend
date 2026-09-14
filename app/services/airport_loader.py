@@ -11,7 +11,6 @@ class AirportLoader:
 
         return self._format_airport(row)
 
-
     def get_airport_by_icao(self, icao: str):
         row = airport_repository.get_by_icao(icao)
 
@@ -19,7 +18,6 @@ class AirportLoader:
             return None
 
         return self._format_airport(row)
-
 
     def search_airports(self, query: str):
         rows = airport_repository.search(query)
@@ -29,33 +27,27 @@ class AirportLoader:
             for row in rows
         ]
 
-
-
     def get_all_airports(self):
         rows = airport_repository.get_all()
 
         return [
-                self._format_airport(row)
-                for row in rows
-            ]
-    
-
-    
-
+            self._format_airport(row)
+            for row in rows
+        ]
 
     def _format_airport(self, row):
         return {
-           "id": row["airport_id"],
-        "iata": row["iata_code"],
-        "icao": row["icao_code"],
-        "name": row["airport_name"],
-        "city": row["city"],
-        "state": row["state"],
-        "latitude": row["latitude"],
-        "longitude": row["longitude"],
-        "elevation": row["elevation"],
-        "type": row["airport_type"],
-        "timezone": row["timezone"],
+            "id": row["airport_id"],
+            "iata": row["iata"],
+            "icao": row["icao"],
+            "name": row["airport_name"],
+            "city": row["city"],
+            "country": row["country"],
+            "region": row["region"],
+            "latitude": row["latitude"],
+            "longitude": row["longitude"],
+            "airport_role": row["airport_role"],
+            "data_type": row["data_type"],
         }
 
 
