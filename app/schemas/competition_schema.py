@@ -1,15 +1,16 @@
+
 from pydantic import BaseModel, Field
-from typing import Optional
 
 
 class CompetitionBase(BaseModel):
     market_id: str
-    airline: str
-    nonstop: bool
-    weekly_frequency: int
+    year: int = Field(..., ge=2021, le=2026)
+    airline_name: str
+    is_direct_competitor: bool
+    frequency_per_week: int = Field(..., gt=0)
     aircraft_type: str
-    estimated_market_share: float = Field(..., ge=0, le=100)
-    competition_strength: str
+    market_share: float = Field(..., ge=0, le=100)
+    competitive_strength: str
     data_type: str = "SYNTHETIC"
 
 
@@ -22,3 +23,4 @@ class CompetitionResponse(CompetitionBase):
 
     class Config:
         from_attributes = True
+

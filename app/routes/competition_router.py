@@ -1,9 +1,11 @@
+
 from typing import List
 
 from fastapi import APIRouter
 
 from app.services.competition_service import competition_service
 from app.schemas.competition_schema import CompetitionResponse
+
 
 router = APIRouter()
 
@@ -27,12 +29,27 @@ def get_competition_by_market(market_id: str):
 
 
 @router.get(
-    "/airline/{airline}",
+    "/market/{market_id}/year/{year}",
+    response_model=List[CompetitionResponse],
+    summary="Get Competition By Market and Year"
+)
+def get_competition_by_market_and_year(
+    market_id: str,
+    year: int
+):
+    return competition_service.get_by_market_and_year(
+        market_id,
+        year
+    )
+
+
+@router.get(
+    "/airline/{airline_name}",
     response_model=List[CompetitionResponse],
     summary="Get Competition By Airline"
 )
-def get_competition_by_airline(airline: str):
-    return competition_service.get_by_airline(airline)
+def get_competition_by_airline(airline_name: str):
+    return competition_service.get_by_airline(airline_name)
 
 
 @router.get(
@@ -42,3 +59,4 @@ def get_competition_by_airline(airline: str):
 )
 def get_competition_by_id(competition_id: str):
     return competition_service.get_by_id(competition_id)
+

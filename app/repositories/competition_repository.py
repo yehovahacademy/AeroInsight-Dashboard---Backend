@@ -14,14 +14,15 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline_name AS airline,
-                        is_direct_competitor AS nonstop,
-                        frequency_per_week AS weekly_frequency,
+                        year,
+                        airline_name,
+                        is_direct_competitor,
+                        frequency_per_week,
                         aircraft_type,
-                        market_share AS estimated_market_share,
-                        competitive_strength AS competition_strength,
+                        market_share,
+                        competitive_strength,
                         data_type
-                    FROM public.competition
+                    FROM public.competition_new
                     ORDER BY competition_id
                 """)
 
@@ -37,14 +38,15 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline_name AS airline,
-                        is_direct_competitor AS nonstop,
-                        frequency_per_week AS weekly_frequency,
+                        year,
+                        airline_name,
+                        is_direct_competitor,
+                        frequency_per_week,
                         aircraft_type,
-                        market_share AS estimated_market_share,
-                        competitive_strength AS competition_strength,
+                        market_share,
+                        competitive_strength,
                         data_type
-                    FROM public.competition
+                    FROM public.competition_new
                     WHERE competition_id = %s
                 """, (competition_id,))
 
@@ -60,21 +62,22 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline_name AS airline,
-                        is_direct_competitor AS nonstop,
-                        frequency_per_week AS weekly_frequency,
+                        year,
+                        airline_name,
+                        is_direct_competitor,
+                        frequency_per_week,
                         aircraft_type,
-                        market_share AS estimated_market_share,
-                        competitive_strength AS competition_strength,
+                        market_share,
+                        competitive_strength,
                         data_type
-                    FROM public.competition
+                    FROM public.competition_new
                     WHERE market_id = %s
-                    ORDER BY market_share DESC
+                    ORDER BY year DESC, market_share DESC
                 """, (market_id,))
 
                 return cursor.fetchall()
 
-    def get_by_airline(self, airline: str):
+    def get_by_airline(self, airline_name: str):
         with get_connection() as connection:
             with connection.cursor(
                 cursor_factory=psycopg2.extras.RealDictCursor
@@ -84,17 +87,18 @@ class CompetitionRepository:
                     SELECT
                         competition_id,
                         market_id,
-                        airline_name AS airline,
-                        is_direct_competitor AS nonstop,
-                        frequency_per_week AS weekly_frequency,
+                        year,
+                        airline_name,
+                        is_direct_competitor,
+                        frequency_per_week,
                         aircraft_type,
-                        market_share AS estimated_market_share,
-                        competitive_strength AS competition_strength,
+                        market_share,
+                        competitive_strength,
                         data_type
-                    FROM public.competition
+                    FROM public.competition_new
                     WHERE UPPER(airline_name) = UPPER(%s)
-                    ORDER BY market_id
-                """, (airline,))
+                    ORDER BY market_id, year DESC
+                """, (airline_name,))
 
                 return cursor.fetchall()
 
