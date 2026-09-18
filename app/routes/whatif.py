@@ -3,8 +3,8 @@ from app.schemas.whatif_schemas import WhatIfRequest
 from app.services.whatif_service import calculate_what_if
 
 router = APIRouter(
-    prefix="/network",
-    tags=["Network Planning"]
+    prefix="/what-if",
+    tags=["What-if Analysis"]
 )
 
 
