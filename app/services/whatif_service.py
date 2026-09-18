@@ -1,19 +1,31 @@
-from app.services.aircraft_service import get_aircraft_capacity
+from app.schemas.whatif_schemas import WhatIfRequest
 
-def calculate_what_if(request):
 
-    capacity = get_aircraft_capacity(request.aircraft)
+def calculate_what_if(request: WhatIfRequest):
 
-    passengers = capacity * request.load_factor
+    # Basic scenario calculations
+    estimated_seats_per_flight = 180
 
-    revenue_per_flight = passengers * request.average_fare
+    daily_capacity = (
+        estimated_seats_per_flight * request.flights_per_day
+    )
 
-    daily_revenue = revenue_per_flight * request.flights_per_day
+    estimated_passengers = (
+        daily_capacity * (request.load_factor / 100)
+    )
+
+    daily_revenue = (
+        estimated_passengers * request.average_fare
+    )
 
     return {
+        "origin": request.origin,
+        "destination": request.destination,
         "aircraft": request.aircraft,
-        "capacity": capacity,
-        "estimated_passengers": round(passengers),
-        "revenue_per_flight": round(revenue_per_flight),
-        "daily_revenue": round(daily_revenue)
+        "flights_per_day": request.flights_per_day,
+        "load_factor": request.load_factor,
+        "average_fare": request.average_fare,
+        "daily_capacity": daily_capacity,
+        "estimated_passengers": round(estimated_passengers),
+        "daily_revenue": round(daily_revenue, 2),
     }

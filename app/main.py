@@ -18,6 +18,8 @@ from app.routes.market_fare_router import router as market_fare_router
 from app.routes.operating_cost_router import router as operating_cost_router
 from app.routes.scenario_route_router import router as scenario_route_router
 
+from app.routes.whatif import router as whatif_router
+
 from app.routes.route_opportunity_router import (
     router as route_opportunity_router
 )
@@ -78,6 +80,7 @@ app.include_router(scenario_route_router)
 
 app.include_router(route_opportunity_router)
 app.include_router(candidate_route_router)
+app.include_router(whatif_router)
 
 
 
