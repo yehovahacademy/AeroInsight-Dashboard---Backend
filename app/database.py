@@ -3,13 +3,13 @@ import psycopg2
 from contextlib import contextmanager
 from dotenv import load_dotenv
 
-
+print("Before load_dotenv:", os.getenv("DATABASE_URL"))
 
 load_dotenv()
 
+print("Afetr load_dotenv:", os.getenv("DATABASE_URL"))
+
 DATABASE_URL = os.getenv("DATABASE_URL")
-
-
 
 if DATABASE_URL:
     print(
